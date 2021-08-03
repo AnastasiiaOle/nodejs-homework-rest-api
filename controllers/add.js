@@ -1,28 +1,22 @@
-const { v4 } = require('uuid')
+const { Contact } = require('../services')
 
-const contactSchema = require('../utils/validate')
-
-const contacts = require('../model/contacts.json')
-
-const addContact = async (req, res) => {
-  console.log(req.body)
-  const { error } = contactSchema.validate(req.body)
-  if (error) {
-    await res.status(400).json({
-      status: 'error',
-      code: 400,
-      message: error.message
+const addContact = async (req, res, next) => {
+  const { body } = req
+  try {
+    const result = await Contact.findByIdAndUpdate(body)
+    res.status(201).json({
+      status: 'success',
+      code: 201,
+      data: {
+        result,
+      },
     })
-    return
+  } catch (error) {
+    if (error.code === 11000) {
+      error.code = 400
+    }
+    next(error)
   }
-  const newContact = { id: v4(), ...req.body }
-  contacts.push(newContact)
-
-  await res.status(201).json({
-    status: 'success',
-    code: 201,
-    data: { result: newContact }
-  })
 }
 
 module.exports = addContact

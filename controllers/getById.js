@@ -1,24 +1,25 @@
-const contacts = require('../model/contacts.json')
+const { Contact } = require('../services')
 
-const getContactById = async (req, res) => {
+const getContactById = async (req, res, next) => {
   const { contactId } = req.params
-
-  const selectContact = contacts.find(({ id }) => id.toString() === contactId.toString())
-  if (!selectContact) {
-    res.status(404).json({
-      status: 'error',
-      code: 404,
-      message: 'Contact this id not found'
-    })
-    return
-  }
-  await res.json({
-    status: 'success',
-    code: 200,
-    data: {
-      result: selectContact
+  try {
+    const result = await Contact.findById(contactId)
+    if (!result) {
+      res.status(404).json({
+        status: 'error',
+        code: 404,
+        message: 'Not found',
+      })
     }
-  })
+    res.json({
+      status: 'success',
+      code: 200,
+      data: {
+        result,
+      },
+    })
+  } catch (error) {
+    next(error)
+  }
 }
-
 module.exports = getContactById
