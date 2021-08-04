@@ -2,9 +2,11 @@ const express = require('express')
 // const logger = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
+// const dotenv = require('dotenv')
+// dotenv.config()
 require('dotenv').config()
 
-const { DB_HOST, PORT = 3000 } = process.env;
+const { DB_HOST } = process.env;
 console.log(DB_HOST)
 
 const contactsRouter = require('./routes/api/contacts')
@@ -27,12 +29,12 @@ app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message })
 })
 
-mongoose
-  .connect(DB_HOST, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
+
+mongoose.connect(DB_HOST, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+})
   .then(async () => {
     app.listen(PORT)
     console.log('Database connection successful')
