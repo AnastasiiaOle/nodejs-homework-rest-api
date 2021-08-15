@@ -1,40 +1,42 @@
 const express = require('express')
-// const logger = require('morgan')
 const cors = require('cors')
 const mongoose = require('mongoose')
-// const dotenv = require('dotenv')
-// dotenv.config()
 require('dotenv').config()
+require('./configs/passport-configs')
+const api = require('./api')
 
-const { DB_HOST } = process.env;
-console.log(DB_HOST)
+const { DB_HOST, PORT = 3000 } = process.env
 
-const contactsRouter = require('./routes/api/contacts')
+const router = require('./routes/api/contacts')
 
 const app = express()
 
-// const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
-
-// app.use(logger(formatsLogger))
 app.use(cors())
 app.use(express.json())
 
-app.use('/api/contacts', contactsRouter)
+app.use('/api/contacts', router)
+app.use('/api/auth', api.auth)
+app.use('/api/users', api.users)
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
+  res.status(404).json({
+    status: 'error',
+    code: 404,
+    message: 'Not found',
+  })
 })
 
 app.use((err, req, res, next) => {
   res.status(500).json({ message: err.message })
 })
 
-
-mongoose.connect(DB_HOST, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-})
+mongoose
+  .connect(DB_HOST, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+  })
   .then(async () => {
     app.listen(PORT)
     console.log('Database connection successful')

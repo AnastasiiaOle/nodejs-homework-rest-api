@@ -1,3 +1,11 @@
+const User = require('./user')
+
+
+module.exports = User
+
+
+
+
 // const fs = require('fs/promises')
 // const contacts = require('./contacts.json')
 
