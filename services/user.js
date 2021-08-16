@@ -1,6 +1,14 @@
 const { User } = require('../model/user')
 
-const getById = (id) => User.findById(id)
+const getByEmail = async (email) => {
+
+    return await User.findOne({ email });
+};
+
+const getById = async (id) => {
+
+    return await User.findOne({ _id: id })
+};
 
 const getOne = (filter) => {
     return User.findOne(filter)
@@ -17,6 +25,7 @@ const updateById = (id, updateInfo) => {
 }
 
 module.exports = {
+    getByEmail,
     getById,
     getOne,
     add,

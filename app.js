@@ -5,16 +5,19 @@ require('dotenv').config()
 require('./configs/passport-configs')
 const api = require('./api')
 
-const { DB_HOST, PORT = 3000 } = process.env
 
-const router = require('./routes/api/contacts')
+const { DB_HOST } = process.env;
+console.log(DB_HOST)
+
+const contactsRouter = require('./routes/api/contacts')
+
 
 const app = express()
 
 app.use(cors())
 app.use(express.json())
 
-app.use('/api/contacts', router)
+app.use('/api/contacts', contactsRouter)
 app.use('/api/auth', api.auth)
 app.use('/api/users', api.users)
 
