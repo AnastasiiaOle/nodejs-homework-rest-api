@@ -1,16 +1,17 @@
-const { user: service } = require('../../services')
+const { user: service } = require("../../services");
 
 const logout = async (req, res, next) => {
     try {
-        await service.updateById(req.user._id, { token: null })
+        await service.udateById(req.user._id, { token: null });
         res.json({
-            status: 'success',
+            status: "success",
             code: 200,
-            message: 'Logout success',
+            message: "Logout success"
         })
-    } catch (error) {
-        next(error)
     }
-}
+    catch (error) {
+        next(error);
+    }
+};
 
 module.exports = logout

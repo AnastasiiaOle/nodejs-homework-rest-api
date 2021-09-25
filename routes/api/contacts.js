@@ -1,6 +1,6 @@
 const express = require('express')
 
-const contacts = require('../../controllers')
+const contacts = require('../../controllers/contacts')
 const router = express.Router()
 
 router.get('/', contacts.listContact)
@@ -16,3 +16,4 @@ router.patch('/:contactId', express.json(), contacts.updateContact)
 router.patch('/:contactId', express.json(), contacts.updateStatusFavorite)
 
 module.exports = router
+

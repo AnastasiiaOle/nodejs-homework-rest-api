@@ -1,10 +1,4 @@
-const passport = require("passport");
-
-/*
-1. Токен невалиден => error = null, user = false
-2. Токен валиден но пользователь в базе не найден => error = new Error("Not found")
-3. Токен валиден, пользователь найден => error = null, user = {}
-*/
+const passport = require('passport');
 
 const authenticate = (req, res, next) => {
     passport.authenticate("jwt", { session: false }, (error, user) => {
@@ -19,6 +13,7 @@ const authenticate = (req, res, next) => {
         req.user = user;
         next()
     })(req, res, next);
-}
+};
+
 
 module.exports = authenticate;

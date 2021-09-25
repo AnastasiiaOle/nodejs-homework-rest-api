@@ -1,6 +1,7 @@
 const { Schema } = require('mongoose')
-const bcrypt = require('bcryptjs')
 
+const bcrypt = require('bcryptjs')
+const gravatar = require('gravatar')
 const userSchema = Schema({
     email: {
         type: String,
@@ -14,6 +15,12 @@ const userSchema = Schema({
     token: {
         type: String,
         default: null
+    },
+    avatar: {
+        type: String,
+        default: function () {
+            return gravatar.url(this.email, { s: '250' }, true)
+        }
     }
 })
 
@@ -25,4 +32,4 @@ userSchema.methods.comparePassword = function (password) {
     return bcrypt.compareSync(password, this.password)
 }
 
-module.exports = userSchema
+module.exports = userSchema;

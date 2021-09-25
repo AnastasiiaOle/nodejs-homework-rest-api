@@ -1,4 +1,3 @@
-const { Module } = require('module');
 const auth = require('./auth');
 const users = require('./users');
 

@@ -1,33 +1,56 @@
-const jwt = require('jsonwebtoken')
-require('dotenv')
-const { user: servise } = require('../../services')
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+const { user: service } = require("../../services");
 
 const login = async (req, res, next) => {
-    const { email, password } = req.body
+    console.log(req.body)
+    const { email, password } = req.body;
     try {
-        const user = await servise.getOne({ email })
+        const user = await service.getOne({ email });
+
         if (!user || !user.comparePassword(password)) {
             res.status(400).json({
-                status: 'error',
+                status: "error",
                 code: 400,
-                message: 'incorrect email or password'
-            })
-            return
+                message: "Неверный email или пароль"
+            });
+            return;
         }
-        const { SECRET_KEY } = process.env
+        const { SECRET_KEY } = process.env;
         const payload = {
             id: user._id
-        }
-        const token = jwt.sign(payload, SECRET_KEY)
-        await service.updateById(user._id, { token })
+        };
+        const token = jwt.sign(payload, SECRET_KEY);
+        await service.udateById(user._id, { token });
         res.json({
-            status: 'success',
+            status: "success",
             code: 200,
-            data: { result: token }
+            data: {
+                result: token
+            }
         })
-    } catch (error) {
-        next(error)
+        // if(!user) {
+        //     res.status(400).json({
+        //         status: "error",
+        //         code: 400,
+        //         message: "Пользователя с таким email не существует"
+        //     });
+        //     return;
+        // }
+        // if(!user.comparePassword(password)){
+        //     res.status(400).json({
+        //         status: "error",
+        //         code: 400,
+        //         message: "Неверный пароль"
+        //     });
+        //     return;
+        // }
     }
-}
+    catch (error) {
+        next(error);
+    }
 
-module.exports = login
+};
+
+module.exports = login;

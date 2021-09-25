@@ -1,4 +1,4 @@
-const getProfile = require("./getProfile");
+const getProfile = require('./getProfile');
 
 module.exports = {
     getProfile

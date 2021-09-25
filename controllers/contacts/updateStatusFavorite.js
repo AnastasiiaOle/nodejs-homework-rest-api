@@ -1,4 +1,4 @@
-const { Contact } = require('../services')
+const { Contact } = require('../../services')
 
 const updateStatusFavorite = async (req, res, next) => {
     const { contactId } = req.params

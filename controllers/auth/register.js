@@ -1,28 +1,29 @@
-const { user: service } = require('../../services')
+const { user: service } = require('../../services');
 
 const register = async (req, res, next) => {
-    const { email, password } = req.body
+    const { email, password } = req.body;
     try {
-        const result = await service.getOne({ email })
+        const result = await service.getOne({ email });
         if (result) {
             res.status(409).json({
-                status: 'error',
+                status: "error",
                 code: 409,
-                message: 'already register'
-            })
+                message: "Already registered"
+            });
             return
         }
+        // const newUser = await service.add({ email, password });
         await service.add({ email, password })
         res.status(201).json({
-            status: 'success',
+            status: "success",
             code: 201,
-            message: 'success'
+            message: "success"
         })
-    } catch (error) {
+
+    }
+    catch (error) {
         next(error)
     }
-}
+};
 
-module.exports = register
-
-
+module.exports = register;

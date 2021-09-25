@@ -1,10 +1,8 @@
-const User = require('./user')
+const User = require("./user")
 
-
-module.exports = User
-
-
-
+module.exports = {
+    User
+}
 
 // const fs = require('fs/promises')
 // const contacts = require('./contacts.json')
