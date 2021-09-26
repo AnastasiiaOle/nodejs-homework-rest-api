@@ -18,7 +18,7 @@ const add = ({ email, password }) => {
     // return User.create({ email, password:hashPassword });
 }
 
-const udateById = (id, updateInfo) => {
+const updateById = (id, updateInfo) => {
     return User.findByIdAndUpdate(id, updateInfo)
 }
 
@@ -26,7 +26,7 @@ module.exports = {
     getOne,
     add,
     getById,
-    udateById
+    updateById
 }
 // const { model } = require('mongoose');
 // const { userSchema } = require('./userSchema');

@@ -2,7 +2,7 @@ const { user: service } = require("../../services");
 
 const logout = async (req, res, next) => {
     try {
-        await service.udateById(req.user._id, { token: null });
+        await service.updateById(req.user._id, { token: null });
         res.json({
             status: "success",
             code: 200,
